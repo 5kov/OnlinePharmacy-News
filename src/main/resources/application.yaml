@@ -1,6 +1,6 @@
 spring:
   application:
-    name: onlinepharmacy
+    name: onlinepharmacy-news
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/news?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
