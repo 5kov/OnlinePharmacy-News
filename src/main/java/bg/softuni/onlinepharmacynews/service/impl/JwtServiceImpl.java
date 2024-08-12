@@ -38,15 +38,15 @@ public class JwtServiceImpl implements JwtService {
   }
 
   @SuppressWarnings("unchecked")
-  private static List<String> getRoles(Claims claims) {
+  public static List<String> getRoles(Claims claims) {
     return claims.get("roles", List.class);
   }
 
-  private static String getUserName(Claims claims) {
+  public static String getUserName(Claims claims) {
     return claims.getSubject();
   }
 
-  private Claims extractClaims(String jwtToken) {
+  public Claims extractClaims(String jwtToken) {
     return Jwts
         .parserBuilder()
         .setSigningKey(getSigningKey())
@@ -55,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
         .getBody();
   }
 
-  private Key getSigningKey() {
+  public Key getSigningKey() {
     byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
     return Keys.hmacShaKeyFor(keyBytes);
   }
