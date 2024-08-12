@@ -188,7 +188,4 @@ class NewsServiceImplTest {
         Assertions.assertThat(capturedInstant)
                 .isCloseTo(expectedInstant, Assertions.within(5, ChronoUnit.SECONDS));
     }
-
-
-
 }
