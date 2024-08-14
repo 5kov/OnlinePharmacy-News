@@ -61,11 +61,6 @@ public class NewsControllerIntegrationTest {
 
     @Test
     public void testCreateNews() throws Exception {
-        AddNewsDTO addNewsDTO = new AddNewsDTO();
-        addNewsDTO.setTitleEn("Test News EN");
-        addNewsDTO.setTitleBg("Test News BG");
-        addNewsDTO.setContentEn("This is a test news content in English.");
-        addNewsDTO.setContentBg("This is a test news content in Bulgarian.");
 
         mockMvc.perform(post("/news")
                         .contentType(MediaType.APPLICATION_JSON)
