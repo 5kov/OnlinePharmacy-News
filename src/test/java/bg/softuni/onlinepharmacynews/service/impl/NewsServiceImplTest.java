@@ -11,9 +11,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -33,11 +35,14 @@ class NewsServiceImplTest {
     @InjectMocks
     private NewsServiceImpl newsService;
 
+    @InjectMocks
+    private ModelMapper modelMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         Period retentionPeriod = Period.ofDays(30);
-        newsService = new NewsServiceImpl(newsRepository, retentionPeriod);
+        newsService = new NewsServiceImpl(newsRepository, retentionPeriod, modelMapper);
     }
 
     @Test
@@ -133,7 +138,7 @@ class NewsServiceImplTest {
         news.setContentBg("Тест Съдържание BG");
         news.setCreated(Instant.now());
 
-        String encodedTitle = URLEncoder.encode("Test", "UTF-8");
+        String encodedTitle = URLEncoder.encode("Test", StandardCharsets.UTF_8);
 
         when(newsRepository.findByTitleEnContainingIgnoreCaseOrTitleBgContainingIgnoreCase("Test", "Test"))
                 .thenReturn(List.of(news));
@@ -154,7 +159,7 @@ class NewsServiceImplTest {
         news.setContentBg("Тест Съдържание BG");
         news.setCreated(Instant.now());
 
-        String encodedTitle = URLEncoder.encode("Test Title EN", "UTF-8");
+        String encodedTitle = URLEncoder.encode("Test Title EN", StandardCharsets.UTF_8);
 
         when(newsRepository.findByTitleEnEqualsOrTitleBgEquals("Test Title EN", "Test Title EN"))
                 .thenReturn(List.of(news));
@@ -168,7 +173,7 @@ class NewsServiceImplTest {
     @Test
     void testCleanupOldNews() {
         Period retentionPeriod = Period.ofDays(30);
-        newsService = new NewsServiceImpl(newsRepository, retentionPeriod);
+        newsService = new NewsServiceImpl(newsRepository, retentionPeriod, modelMapper);
 
         // Capture the argument passed to deleteOldOffers
         ArgumentCaptor<Instant> instantCaptor = ArgumentCaptor.forClass(Instant.class);
